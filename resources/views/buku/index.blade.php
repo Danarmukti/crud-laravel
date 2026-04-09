@@ -1,6 +1,12 @@
 @include('layout.header')
 <h3>buku</h3>
-<a href="{{ route('buku.create') }}" class="tombol">Tambah Buku</a>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <a href="{{ route('buku.create') }}" class="tombol">Tambah Buku</a>
+    <form action="{{ route('buku.index') }}" method="GET">
+        <input type="text" name="q" placeholder="cari buku" style="padding: 5px;">
+        <button type="submit" class="tombol">Cari</button>
+    </form>
+</div>
 <table>
     <thead>
         <tr>
@@ -16,7 +22,7 @@
     <tbody>
         @foreach ($allbuku as $key => $r)
             <tr>
-                <td> {{ $key + 1 }} </td>
+                <td> {{ $key + $allbuku->firstItem() }} </td>
                 <td> {{ $r->judul }} </td>
                 <td> {{ $r->pengarang }} </td>
                 <td> {{ $r->tahun_terbit }} </td>

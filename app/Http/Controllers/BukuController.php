@@ -13,9 +13,27 @@ class BukuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $allbuku = buku::latest()->paginate(5);
+        $query = $request->input('q');
+
+        if ($query) {
+            $allbuku = buku::where('judul', 'like', "%$query%")
+                ->orWhere('pengarang', 'like', "%$query%")
+                ->orWhere('tahun_terbit', 'like', "%$query%")
+                ->orWhereHas('Kategori', function ($q) use ($query) {
+                    $q->where('nama_kategori', 'like', "%$query%");
+                })
+                ->orWhereHas('Penerbit', function ($q) use ($query) {
+                    $q->where('nama_penerbit', 'like', "%$query%");
+                })
+                ->latest()
+                ->paginate(5);
+            $allbuku->appends(['q' => $query]);
+        } else {
+            $allbuku = buku::latest()->paginate(5);
+        }
+
         return view('buku.index', compact('allbuku'));
     }
 
