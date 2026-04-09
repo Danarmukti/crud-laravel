@@ -22,7 +22,7 @@
                 <td> {{ $r->tahun_terbit }} </td>
                 <td> {{ $r->Kategori->nama_kategori }} </td>
                 <td> {{ $r->Penerbit->nama_penerbit }} </td>
-                <td>
+                <td width="170px">
                     <form action="{{ route('buku.destroy', $r->id) }}" method="POST">
                         <a href="{{ route('buku.show', $r->id) }}" class="tombol">detail</a>
                         <a href="{{ route('buku.edit', $r->id) }}" class="tombol">Edit</a>
@@ -35,4 +35,7 @@
         @endforeach
     </tbody>
 </table>
+<div>
+    {{ $allbuku->links('vendor.pagination.buatanku') }}
+</div>
 @include('layout.footer');

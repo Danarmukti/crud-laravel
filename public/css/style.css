@@ -150,3 +150,42 @@ h3 {
     font-size:75%;
     font-style: italic;
   }
+
+  /* pagination */
+
+  .custom-pagination ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+  }
+
+  .custom-pagination li {
+    margin: 5px 0px;
+  }
+
+  .custom-pagination li a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: black;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .custom-pagination .active span {
+    background-color: #34495e;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 10px;
+    color: #fff;
+    display: block;
+  }
+
+  .custom-pagination .disabled span {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 10px;
+    pointer-events: none;
+    color: #34495e;
+    display: block;
+  }

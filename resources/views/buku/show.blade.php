@@ -2,6 +2,13 @@
 <h3>Detail Buku</h3>
 <table>
     <tbody>
+        @if ($buku->cover)
+            <tr>
+                <td colspan="3" style="text-align: center" width="150px">
+                    <img src="{{ asset('storage/' . $buku->cover) }}" alt="Cover Buku" width="200px">
+                </td>
+            </tr>
+        @endif
         <tr>
             <td width="150px"> Judul </td>
             <td width="2px"> : </td>

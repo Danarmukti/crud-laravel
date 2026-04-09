@@ -6,6 +6,7 @@ use App\Models\buku;
 use App\Models\kategori;
 use App\Models\penerbit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
@@ -14,7 +15,7 @@ class BukuController extends Controller
      */
     public function index()
     {
-        $allbuku = buku::all();
+        $allbuku = buku::latest()->paginate(5);
         return view('buku.index', compact('allbuku'));
     }
 
@@ -40,7 +41,16 @@ class BukuController extends Controller
             'tahun_terbit' => 'required|integer:4',
             'kategori_id' => 'required',
             'penerbit_id' => 'required',
+            'file_cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+        if ($request->hasFile('file_cover')) {
+            $validateData['cover'] = $request->file('file_cover')->store('cover', 'public');
+
+        }
+
+        // hapus file_cover dari validasi
+        unset($validateData['file_cover']);
 
         //simpan data
         Buku::create($validateData);
@@ -78,7 +88,20 @@ class BukuController extends Controller
             'tahun_terbit' => 'required|integer:4',
             'kategori_id' => 'required',
             'penerbit_id' => 'required',
+            'file_cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+        // proses file_cover upload
+        if ($request->hasFile('file_cover')) {
+            $validateData['cover'] = $request->file('file_cover')->store('cover', 'public');
+
+            if ($request->cover_lama) {
+                Storage::delete('public/' . $request->cover_lama);
+            }
+        }
+
+        // hapus file_cover dari validasi
+        unset($validateData['file_cover']);
 
         //update data
         $buku->update($validateData);
